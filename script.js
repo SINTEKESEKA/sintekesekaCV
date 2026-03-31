@@ -1,95 +1,194 @@
-const menuToggle = document.querySelector(".menu-toggle");
-const menuPanel = document.querySelector(".menu-panel");
-const menuLinks = [...document.querySelectorAll(".menu-link[href^='#']")];
-const revealItems = document.querySelectorAll(".reveal");
-const sections = document.querySelectorAll("[data-section]");
-const root = document.documentElement;
+// DOM Elements
+const hamburger = document.getElementById('hamburgerBtn');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
 
-const closeMenu = () => {
-  menuToggle.classList.remove("is-open");
-  menuPanel.classList.remove("is-open");
-  menuToggle.setAttribute("aria-expanded", "false");
-  document.body.classList.remove("menu-open");
-};
+// --- Hamburger Menu Logic ---
+function closeMenu() {
+    if (navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+    }
+    if (hamburger.classList.contains('active')) {
+        hamburger.classList.remove('active');
+    }
+}
 
-const openMenu = () => {
-  menuToggle.classList.add("is-open");
-  menuPanel.classList.add("is-open");
-  menuToggle.setAttribute("aria-expanded", "true");
-  document.body.classList.add("menu-open");
-};
+function toggleMenu() {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+}
 
-menuToggle.addEventListener("click", () => {
-  const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-  if (expanded) {
-    closeMenu();
-    return;
-  }
-
-  openMenu();
+hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
 });
 
-menuLinks.forEach((link) => {
-  link.addEventListener("click", () => closeMenu());
-});
-
-document.addEventListener("click", (event) => {
-  const burst = document.createElement("span");
-  burst.className = "click-burst";
-  burst.style.left = `${event.clientX}px`;
-  burst.style.top = `${event.clientY}px`;
-  document.body.appendChild(burst);
-  burst.addEventListener("animationend", () => burst.remove(), { once: true });
-
-  const clickedInsideMenu = menuPanel.contains(event.target) || menuToggle.contains(event.target);
-  if (!clickedInsideMenu) {
-    closeMenu();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeMenu();
-  }
-});
-
-window.addEventListener("pointermove", (event) => {
-  root.style.setProperty("--pointer-x", `${event.clientX}px`);
-  root.style.setProperty("--pointer-y", `${event.clientY}px`);
-});
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      }
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        closeMenu();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            e.preventDefault();
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, null, `#${targetId}`);
+        }
     });
-  },
-  { threshold: 0.16 }
-);
+});
 
-revealItems.forEach((item) => revealObserver.observe(item));
+document.addEventListener('click', (e) => {
+    if (navMenu.classList.contains('active') && 
+        !hamburger.contains(e.target) && 
+        !navMenu.contains(e.target)) {
+        closeMenu();
+    }
+});
 
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
-      }
+// --- Mouse Tracking Effect (Cursor Trail) ---
+const trail = document.createElement('div');
+trail.classList.add('cursor-trail');
+document.body.appendChild(trail);
 
-      const activeId = entry.target.getAttribute("id");
-      menuLinks.forEach((link) => {
-        const isActive = link.getAttribute("href") === `#${activeId}`;
-        link.classList.toggle("active", isActive);
-      });
+let mouseX = 0, mouseY = 0;
+let trailVisible = false;
+
+function updateTrailPosition() {
+    if (trailVisible) {
+        trail.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+    }
+    requestAnimationFrame(updateTrailPosition);
+}
+updateTrailPosition();
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!trailVisible) {
+        trail.style.display = 'block';
+        trailVisible = true;
+    }
+});
+
+document.addEventListener('mouseleave', () => {
+    trail.style.display = 'none';
+    trailVisible = false;
+});
+
+// Disable cursor trail on touch devices
+if ('ontouchstart' in window) {
+    trail.style.display = 'none';
+}
+
+// --- Click Ripple Effect ---
+function createRipple(event) {
+    const ripple = document.createElement('div');
+    ripple.classList.add('click-ripple');
+    ripple.style.left = `${event.clientX - 10}px`;
+    ripple.style.top = `${event.clientY - 10}px`;
+    document.body.appendChild(ripple);
+    setTimeout(() => {
+        ripple.remove();
+    }, 500);
+}
+
+document.addEventListener('click', (e) => {
+    createRipple(e);
+});
+
+// --- Active Navigation Highlight on Scroll ---
+const sections = document.querySelectorAll('section');
+
+function setActiveLink() {
+    let current = '';
+    const scrollPos = window.scrollY + 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+            current = section.getAttribute('id');
+        }
     });
-  },
-  {
-    threshold: 0.45,
-    rootMargin: "-10% 0px -35% 0px",
-  }
-);
+    
+    navLinks.forEach(link => {
+        link.style.color = '#cbd5e1';
+        link.style.borderBottomColor = 'transparent';
+        if (link.getAttribute('href') === `#${current}`) {
+            link.style.color = '#3b82f6';
+            link.style.borderBottomColor = '#3b82f6';
+        }
+    });
+}
 
-sections.forEach((section) => sectionObserver.observe(section));
+window.addEventListener('scroll', setActiveLink);
+setActiveLink();
+
+// --- Handle initial hash in URL ---
+if (window.location.hash) {
+    const id = window.location.hash.substring(1);
+    const el = document.getElementById(id);
+    if (el) {
+        setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+}
+
+// --- Profile Photo Handler ---
+// This allows you to click the placeholder to upload a photo
+const photoPlaceholder = document.getElementById('photoPlaceholder');
+const profileImg = document.getElementById('profileImg');
+
+if (photoPlaceholder && profileImg) {
+    // Hide the image initially if no source
+    if (!profileImg.src || profileImg.src === window.location.href) {
+        profileImg.style.display = 'none';
+    } else {
+        photoPlaceholder.classList.add('hidden');
+        profileImg.style.display = 'block';
+    }
+    
+    // Create file input for photo upload
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+    
+    const handlePhotoUpload = () => {
+        fileInput.click();
+    };
+    
+    photoPlaceholder.addEventListener('click', handlePhotoUpload);
+    
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                profileImg.src = event.target.result;
+                profileImg.style.display = 'block';
+                photoPlaceholder.classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // If image already exists, allow click to change
+    if (profileImg.style.display === 'block') {
+        profileImg.addEventListener('click', handlePhotoUpload);
+        profileImg.style.cursor = 'pointer';
+    }
+}
+
+// --- Add loading animation for images ---
+window.addEventListener('load', () => {
+    document.body.style.opacity = '1';
+});
+
+// --- Keyboard navigation for accessibility ---
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+        closeMenu();
+    }
+});
