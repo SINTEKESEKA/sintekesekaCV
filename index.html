@@ -1,74 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sintekeseka Malunga - Portfolio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Professional portfolio website for Sintekeseka Adrian Malunga, showcasing experience in software, networking, design, and IT systems."
+  >
+  <title>Sintekeseka Adrian Malunga | Portfolio CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul class="nav-menu" id="navMenu">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Go to home section">
+        <span class="brand-mark">SAM</span>
+        <span class="brand-copy">
+          <strong>Sintekeseka Adrian Malunga</strong>
+          <small>Computer Science Graduate Portfolio</small>
+        </span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        aria-label="Open menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <nav class="menu-panel" id="site-menu" aria-label="Primary navigation">
+      <a href="#home" class="menu-link active">Home</a>
+      <a href="#profile" class="menu-link">Profile</a>
+      <a href="#experience" class="menu-link">Experience</a>
+      <a href="#education" class="menu-link">Education</a>
+      <a href="#skills" class="menu-link">Skills</a>
+      <a href="#contact" class="menu-link">Contact</a>
+      <a href="assets/Sintekeseka_A_Malungas_CV_2026.pdf" class="menu-link menu-link--accent" target="_blank" rel="noreferrer">
+        Download CV
+      </a>
     </nav>
 
-    <div class="ripple-container" id="rippleContainer"></div>
+    <main>
+      <section class="hero section" id="home" data-section>
+        <div class="hero-copy">
+          <p class="eyebrow">Digital Systems • Software • Design</p>
+          <h1>Building practical digital solutions with a calm, people-first approach.</h1>
+          <p class="hero-text">
+            I am Sintekeseka Adrian Malunga, a Malawi-based Computer Science graduate focused on software development,
+            systems support, network administration, and design-led problem solving.
+          </p>
 
-    <section id="home" class="section">
-        <div class="content">
-            <h1>Sintekeseka Adrian Malunga</h1>
-            <p>Software Developer & IT Specialist | BSc Computer Science (2026) | Pharmacy Systems Expert</p>
-            <p>Lilongwe, Malawi | sintekesekamalunga@gmail.com | +265 99 589 3650</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#experience">Explore Experience</a>
+            <a class="button button-secondary" href="assets/Sintekeseka_A_Malungas_CV_2026.pdf" target="_blank" rel="noreferrer">
+              View CV
+            </a>
+          </div>
+
+          <ul class="highlights" aria-label="Key highlights">
+            <li>Based in Lilongwe, Malawi</li>
+            <li>BSc Computer Science, graduating May 2026</li>
+            <li>Hands-on experience across pharmacy, retail, and IT operations</li>
+          </ul>
         </div>
-    </section>
 
-    <section id="experience" class="section">
-        <h2>Work Experience</h2>
-        <ul>
-            <li>Mudi Pharmacies Blantyre Kameza (4 months): Electronic prescriptions, data analysis.</li>
-            <li>Seven Eleven Pharmacy (4 months).</li>
-            <li>Mudi Pharmacy Mzimba Boma (3 months).</li>
-            <li>Chiliconse Enterprises LTD (8 months).</li>
-            <li>Mudi Vet Clinic (5 months): Hardware, networks, IoT.</li>
-        </ul>
-    </section>
+        <aside class="hero-card">
+          <div class="hero-card__panel">
+            <p class="hero-card__label">Professional Focus</p>
+            <ul class="hero-card__list">
+              <li>Software support and troubleshooting</li>
+              <li>Hardware setup and maintenance</li>
+              <li>Network administration and security</li>
+              <li>Graphic design and web interfaces</li>
+            </ul>
+          </div>
+          <div class="hero-metrics">
+            <article>
+              <strong>5</strong>
+              <span>major workplace placements</span>
+            </article>
+            <article>
+              <strong>2024-2025</strong>
+              <span>recent certifications across IT and AI</span>
+            </article>
+            <article>
+              <strong>3</strong>
+              <span>fluent languages</span>
+            </article>
+          </div>
+        </aside>
+      </section>
 
-    <section id="education" class="section">
-        <h2>Education</h2>
-        <ul>
-            <li>DMI University Mangochi: BSc Computer Science (grad May 2026).</li>
-            <li>Bedire International High School Blantyre (2019): Cambridge A-levels.</li>
-            <li>Bambino High School Lilongwe (2014-2016): Cambridge Checkpoint.</li>
-        </ul>
-    </section>
+      <section class="section" id="profile" data-section>
+        <div class="section-heading reveal">
+          <p class="eyebrow">Profile</p>
+          <h2>Career Objective</h2>
+          <p>
+            To grow within a fast-evolving digital environment by contributing technical expertise, problem-solving ability,
+            and dependable support to innovative teams and projects.
+          </p>
+        </div>
 
-    <section id="skills" class="section">
-        <h2>Skills & Certifications</h2>
-        <ul>
-            <li>Software: Development, databases, POS/CRM maintenance.</li>
-            <li>Hardware/Networks: Installation, troubleshooting, CCNA fundamentals.</li>
-            <li>Graphics: Photoshop, HTML/CSS/JS, UX principles.</li>
-            <li>Certs: Oracle AI Vector Search, Kubernetes (Class Central), HP AI Planning.</li>
-        </ul>
-    </section>
+        <div class="grid-two">
+          <article class="card reveal">
+            <h3>What I Bring</h3>
+            <p>
+              My background combines software support, data awareness, hardware management, and creative communication.
+              I enjoy turning day-to-day operational challenges into structured, usable solutions.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Professional Snapshot</h3>
+            <ul class="tag-list">
+              <li>Software Development</li>
+              <li>Data Analysis</li>
+              <li>System Troubleshooting</li>
+              <li>Networking</li>
+              <li>Graphic Design</li>
+              <li>Front-End Web</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
-    <section id="contact" class="section">
-        <h2>Contact</h2>
-        <p>Email: sintekesekamalunga@gmail.com | Phone: +265 99 589 3650 / +265 88 060 0852</p>
-        <p>References: Dr Kholiwe Mkandawire (Mudi Vet), etc.</p>
-    </section>
+      <section class="section" id="experience" data-section>
+        <div class="section-heading reveal">
+          <p class="eyebrow">Experience</p>
+          <h2>Work Experience & Technical Exposure</h2>
+          <p>
+            My experience spans pharmacy environments, enterprise operations, and technical support settings where reliability,
+            organization, and practical IT knowledge matter every day.
+          </p>
+        </div>
 
-    <script src="script.js"></script>
+        <div class="timeline">
+          <article class="timeline-item reveal">
+            <span class="timeline-duration">Four months</span>
+            <h3>Mudi Pharmacies, Kameza Blantyre</h3>
+            <p>Supported operational systems and daily technical workflows in a pharmacy environment.</p>
+          </article>
+          <article class="timeline-item reveal">
+            <span class="timeline-duration">Four months</span>
+            <h3>Seven Eleven Pharmacy</h3>
+            <p>Assisted with system support, process continuity, and digital tooling used in retail pharmacy operations.</p>
+          </article>
+          <article class="timeline-item reveal">
+            <span class="timeline-duration">Three months</span>
+            <h3>Mudi Pharmacy, Mzimba Boma</h3>
+            <p>Contributed to technical maintenance, troubleshooting, and workflow support for daily operations.</p>
+          </article>
+          <article class="timeline-item reveal">
+            <span class="timeline-duration">Eight months</span>
+            <h3>Chiliconse Enterprises LTD</h3>
+            <p>Worked across broader business operations with exposure to IT systems and technical support responsibilities.</p>
+          </article>
+          <article class="timeline-item reveal">
+            <span class="timeline-duration">Five months</span>
+            <h3>Mudi Vet Clinic</h3>
+            <p>Supported technical and administrative systems in a healthcare-related service environment.</p>
+          </article>
+        </div>
+
+        <div class="expertise-grid">
+          <article class="card reveal">
+            <h3>Computer Systems</h3>
+            <p>
+              Worked with prescription workflows, sales analysis, database management, and software improvements for records,
+              stock control, and digital operations.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Hardware & Infrastructure</h3>
+            <p>
+              Installed and maintained computers, printers, barcode scanners, servers, smart monitoring devices, and local
+              network hardware used in operational settings.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Design & Publication</h3>
+            <p>
+              Created visual materials for print and digital platforms, edited assets, and translated interface ideas into
+              front-end layouts with HTML, CSS, and JavaScript.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Software Maintenance</h3>
+            <p>
+              Diagnosed software issues, supported POS and CRM platforms, helped with backups and data recovery, and assisted
+              with updates and deployments.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Network Administration</h3>
+            <p>
+              Monitored performance, solved connectivity issues, supported device access, and contributed to firewall,
+              intrusion detection, and security-oriented network practices.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="education" data-section>
+        <div class="section-heading reveal">
+          <p class="eyebrow">Education</p>
+          <h2>Academic Background & Certifications</h2>
+          <p>
+            Formal training in computer science is supported by targeted certifications in networking, AI, digital business,
+            UX, and server-side operations.
+          </p>
+        </div>
+
+        <div class="grid-two">
+          <article class="card reveal">
+            <h3>Education</h3>
+            <div class="stack-list">
+              <div>
+                <strong>Bambino High School, Lilongwe</strong>
+                <span>2014-2016 • Cambridge Checkpoint</span>
+              </div>
+              <div>
+                <strong>Bedire International High School, Blantyre</strong>
+                <span>2019 • Cambridge A Level</span>
+              </div>
+              <div>
+                <strong>DMI University, Mangochi</strong>
+                <span>2026 • BSc Computer Science, graduating May 2026</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <h3>Certifications</h3>
+            <div class="stack-list">
+              <div>
+                <strong>Cisco Networking Academy</strong>
+                <span>Endpoint Security • CCNA Fundamentals</span>
+              </div>
+              <div>
+                <strong>Oracle University</strong>
+                <span>Artificial Intelligence Vector Search Fundamentals</span>
+              </div>
+              <div>
+                <strong>Class Central</strong>
+                <span>Kubernetes Fundamentals Server-Side Operations</span>
+              </div>
+              <div>
+                <strong>HP Foundation</strong>
+                <span>Artificial Intelligence • Strategic Planning • Digital Business Skills</span>
+              </div>
+              <div>
+                <strong>Udemy</strong>
+                <span>Time Management • Graphic Design Fundamentals • UX Principles</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="skills" data-section>
+        <div class="section-heading reveal">
+          <p class="eyebrow">Strengths</p>
+          <h2>Skills, Awards & Languages</h2>
+          <p>
+            Beyond technical ability, I value composure, fast learning, good judgment, and strong communication in demanding
+            environments.
+          </p>
+        </div>
+
+        <div class="grid-three">
+          <article class="card reveal">
+            <h3>Core Skills</h3>
+            <ul class="feature-list">
+              <li>Critical thinking and attention to detail</li>
+              <li>Professionalism and interpersonal communication</li>
+              <li>Time consciousness and calm under pressure</li>
+              <li>Technology planning and implementation awareness</li>
+              <li>Health education support and ethical practice</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <h3>Leadership & Awards</h3>
+            <ul class="feature-list">
+              <li>Bambino High School sanitation prefect, 2016-2017</li>
+              <li>Bedire International High School head boy, 2019-2020</li>
+              <li>DMI University class representative, 2020-2021</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <h3>Languages</h3>
+            <ul class="feature-list">
+              <li>English - Fluent</li>
+              <li>Chichewa - Fluent</li>
+              <li>Tumbuka - Fluent</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact" data-section>
+        <div class="section-heading reveal">
+          <p class="eyebrow">Contact</p>
+          <h2>Let’s Connect</h2>
+          <p>
+            I’m available for professional opportunities, graduate roles, internships, and technical support work where I can
+            keep learning while delivering dependable results.
+          </p>
+        </div>
+
+        <div class="grid-two contact-grid">
+          <article class="card reveal">
+            <h3>Direct Details</h3>
+            <ul class="contact-list">
+              <li><span>Email</span><a href="mailto:sintekesekamalunga@gmail.com">sintekesekamalunga@gmail.com</a></li>
+              <li><span>Phone</span><a href="tel:+265995893650">+265 99 589 3650</a></li>
+              <li><span>Alternate</span><a href="tel:+265880600852">+265 88 060 0852</a></li>
+              <li><span>Location</span><strong>Lilongwe, Malawi</strong></li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <h3>References</h3>
+            <p>
+              Professional references from Mudi Vet, Mudi Pharmacy, and DMI University are available on request.
+              I kept full referee contact details off the public site to protect third-party privacy.
+            </p>
+            <a class="button button-primary button-inline" href="mailto:sintekesekamalunga@gmail.com?subject=Professional%20Opportunity">
+              Request Full References
+            </a>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
