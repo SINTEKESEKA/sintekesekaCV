@@ -3,45 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sintekeseka Adrian Malunga | Portfolio</title>
+    <title>Sintekeseka Malunga - Portfolio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="cursor-tracker"></div>
-
-    <header>
-        <nav>
-            <div class="logo">SAM.dev</div>
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span><span></span><span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about" onclick="toggleMenu()">About</a></li>
-                <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
-                <li><a href="#education" onclick="toggleMenu()">Education</a></li>
-                <li><a href="#skills" onclick="toggleMenu()">Skills</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="hero">
-        <h1 class="typewriter">SINTEKESEKA ADRIAN MALUNGA</h1>
-        <p>Computer Science Graduate | IT Specialist</p>
-    </section>
-
-    <section id="about" class="container">
-        <h2>Objective</h2>
-        <p>Leveraging technical expertise in software development and data analysis to contribute to innovative projects[cite: 13, 14].</p>
-    </section>
-
-    <section id="experience" class="container">
-        <h2>Work Experience</h2>
-        <div class="card">
-            <h3>IT Officer - Mudi Pharmacies</h3>
-            <p>Managed security systems, network performance, and electronic prescription systems[cite: 23, 29, 52].</p>
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        </section>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="ripple-container" id="rippleContainer"></div>
+
+    <section id="home" class="section">
+        <div class="content">
+            <h1>Sintekeseka Adrian Malunga</h1>
+            <p>Software Developer & IT Specialist | BSc Computer Science (2026) | Pharmacy Systems Expert</p>
+            <p>Lilongwe, Malawi | sintekesekamalunga@gmail.com | +265 99 589 3650</p>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <h2>Work Experience</h2>
+        <ul>
+            <li>Mudi Pharmacies Blantyre Kameza (4 months): Electronic prescriptions, data analysis.</li>
+            <li>Seven Eleven Pharmacy (4 months).</li>
+            <li>Mudi Pharmacy Mzimba Boma (3 months).</li>
+            <li>Chiliconse Enterprises LTD (8 months).</li>
+            <li>Mudi Vet Clinic (5 months): Hardware, networks, IoT.</li>
+        </ul>
+    </section>
+
+    <section id="education" class="section">
+        <h2>Education</h2>
+        <ul>
+            <li>DMI University Mangochi: BSc Computer Science (grad May 2026).</li>
+            <li>Bedire International High School Blantyre (2019): Cambridge A-levels.</li>
+            <li>Bambino High School Lilongwe (2014-2016): Cambridge Checkpoint.</li>
+        </ul>
+    </section>
+
+    <section id="skills" class="section">
+        <h2>Skills & Certifications</h2>
+        <ul>
+            <li>Software: Development, databases, POS/CRM maintenance.</li>
+            <li>Hardware/Networks: Installation, troubleshooting, CCNA fundamentals.</li>
+            <li>Graphics: Photoshop, HTML/CSS/JS, UX principles.</li>
+            <li>Certs: Oracle AI Vector Search, Kubernetes (Class Central), HP AI Planning.</li>
+        </ul>
+    </section>
+
+    <section id="contact" class="section">
+        <h2>Contact</h2>
+        <p>Email: sintekesekamalunga@gmail.com | Phone: +265 99 589 3650 / +265 88 060 0852</p>
+        <p>References: Dr Kholiwe Mkandawire (Mudi Vet), etc.</p>
+    </section>
 
     <script src="script.js"></script>
 </body>
