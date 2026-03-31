@@ -1,288 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Sintekeseka Malunga | CS Graduate Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: #0a0f1a;  /* deep dark gray background */
-      font-family: 'Courier New', 'Fira Code', 'Source Code Pro', monospace;
-      color: #e6edf3;
-      line-height: 1.5;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-
-    /* custom cursor effect trail (mouse tracking) */
-    .cursor-trail {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background-color: #3b82f6;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.7;
-      transition: transform 0.05s linear;
-      filter: blur(1px);
-      box-shadow: 0 0 6px #3b82f6;
-    }
-
-    /* selection effect (when user clicks or selects text) */
-    ::selection {
-      background: #1e40af;
-      color: #ffffff;
-      text-shadow: 0 0 2px #0a0f1a;
-    }
-
-    /* click ripple effect via JS (added element) */
-    .click-ripple {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(59,130,246,0.7);
-      transform: scale(0);
-      pointer-events: none;
-      z-index: 10000;
-      animation: rippleAnim 0.5s ease-out forwards;
-    }
-
-    @keyframes rippleAnim {
-      to {
-        transform: scale(6);
-        opacity: 0;
-      }
-    }
-
-    /* main container */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 1.5rem;
-    }
-
-    /* header / nav styles */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid #2d3748;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .logo span {
-      color: #e2e8f0;
-      background: none;
-      -webkit-background-clip: unset;
-      background-clip: unset;
-    }
-
-    /* hamburger menu */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 6px;
-      background: transparent;
-      border: none;
-      z-index: 110;
-    }
-
-    .hamburger span {
-      width: 28px;
-      height: 3px;
-      background: #3b82f6;
-      border-radius: 3px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 1.8rem;
-      list-style: none;
-    }
-
-    .nav-menu li a {
-      text-decoration: none;
-      color: #cbd5e1;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: 0.2s;
-      letter-spacing: 0.3px;
-      border-bottom: 2px solid transparent;
-      padding-bottom: 5px;
-    }
-
-    .nav-menu li a:hover {
-      color: #3b82f6;
-      border-bottom-color: #3b82f6;
-    }
-
-    /* sections */
-    section {
-      margin: 3rem 0 2rem 0;
-      scroll-margin-top: 80px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      border-left: 5px solid #3b82f6;
-      padding-left: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: #11161f;
-      border-radius: 12px;
-      padding: 1.4rem;
-      border: 1px solid #1f2a3a;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .card:hover {
-      border-color: #3b82f6;
-      transform: translateY(-3px);
-    }
-
-    .job-item, .exp-item {
-      background: #11161f;
-      border-radius: 12px;
-      padding: 1rem 1.4rem;
-      margin-bottom: 1rem;
-      border-left: 3px solid #3b82f6;
-    }
-
-    .skill-tag {
-      display: inline-block;
-      background: #1e293b;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      margin: 0.2rem;
-      color: #94a3b8;
-    }
-
-    hr {
-      border-color: #2d3748;
-      margin: 1rem 0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid #2d3748;
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: #6c7a91;
-    }
-
-    /* responsive */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-      .nav-menu {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 70%;
-        height: calc(100vh - 70px);
-        background: #0f141f;
-        flex-direction: column;
-        padding: 2rem 1.5rem;
-        gap: 1.8rem;
-        transition: left 0.3s ease;
-        box-shadow: 2px 0 12px rgba(0,0,0,0.5);
-        z-index: 100;
-        border-right: 1px solid #1f2a3a;
-      }
-      .nav-menu.active {
-        left: 0;
-      }
-      .navbar {
-        position: relative;
-      }
-      .container {
-        padding: 1rem;
-      }
-    }
-
-    a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .personal-detail {
-      background: #0e131c;
-      padding: 1.2rem;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      border: 1px solid #232e3f;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.2rem;
-      justify-content: space-between;
-    }
-    .detail-block p {
-      margin: 0.3rem 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sintekeseka Malunga | CS Graduate Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-  <!-- navigation -->
-  <nav class="navbar">
-    <div class="logo">&lt;SINTEKESEKA.AI /&gt; <span>| CS Graduate</span></div>
-    <button class="hamburger" id="hamburgerBtn" aria-label="menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-menu" id="navMenu">
-      <li><a href="#home" class="nav-link">HOME</a></li>
-      <li><a href="#experience" class="nav-link">EXPERIENCE</a></li>
-      <li><a href="#skills" class="nav-link">SKILLS</a></li>
-      <li><a href="#education" class="nav-link">EDUCATION</a></li>
-      <li><a href="#certifications" class="nav-link">CERTIFICATIONS</a></li>
-      <li><a href="#contact" class="nav-link">CONTACT</a></li>
-    </ul>
-  </nav>
+    <!-- navigation -->
+    <nav class="navbar">
+        <div class="logo">&lt;SINTEKESEKA.AI /&gt; <span>| CS Graduate</span></div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" class="nav-link">HOME</a></li>
+            <li><a href="#experience" class="nav-link">EXPERIENCE</a></li>
+            <li><a href="#skills" class="nav-link">SKILLS</a></li>
+            <li><a href="#education" class="nav-link">EDUCATION</a></li>
+            <li><a href="#certifications" class="nav-link">CERTIFICATIONS</a></li>
+            <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        </ul>
+    </nav>
 
-  <!-- HERO / HOME section (personal details) -->
-  <section id="home">
+    <!-- HERO / HOME section with profile photo -->
+    <section id="home">
         <div class="hero-section">
             <div class="profile-photo">
                 <!-- Replace 'images/profile.jpg' with your actual photo path -->
-                <img src="images/image01.jpg" alt="Sintekeseka Adrian Malunga" id="profileImg">
+                <img src="images/profile.jpg" alt="Sintekeseka Adrian Malunga" id="profileImg">
                 <div class="photo-placeholder" id="photoPlaceholder">
                     <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="60" cy="60" r="58" stroke="#3b82f6" stroke-width="2" fill="#1e293b"/>
@@ -309,266 +58,143 @@
         </div>
     </section>
 
-  <!-- WORK EXPERIENCE + GENERAL EXPERIENCE (merged into one professional section) -->
-  <section id="experience">
-    <h2 class="section-title">// WORK & GENERAL EXPERIENCE</h2>
-    <div class="card-grid">
-      <div class="card">
-        <h3 style="color:#60a5fa;">💼 Work History</h3>
-        <ul style="margin-left: 1.2rem; margin-top: 0.6rem;">
-          <li>Mudi pharmacies Blantyre Kameza (4 months)</li>
-          <li>Seven eleven pharmacy (4 months)</li>
-          <li>Mudi pharmacy Mzimba Boma (3 months)</li>
-          <li>Chiliconse enterprises LTD (8 months)</li>
-          <li>Mudi Vet Clinic (5 months)</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:#60a5fa;">🖥️ Computer & Systems</h3>
-        <p>e-Prescription systems, sales/prescription data analysis, DB management (patient records, inventory), software enhancement for inventory & sales.</p>
-      </div>
-      <div class="card">
-        <h3 style="color:#60a5fa;">📡 Hardware & Network Admin</h3>
-        <p>Security systems (cameras, access control), diagnosing hardware issues, network setup (LAN/WiFi), on-site server maintenance, IoT devices (smart refrigerators), asset logging.</p>
-      </div>
-      <div class="card">
-        <h3 style="color:#60a5fa;">🎨 Graphic Design & Web</h3>
-        <p>Marketing materials (flyers, brochures), Adobe Photoshop/Illustrator, front-end (HTML/CSS/JS), website design, user research, visual consistency across platforms.</p>
-      </div>
-      <div class="card">
-        <h3 style="color:#60a5fa;">🔧 Software Maintenance</h3>
-        <p>POS systems, inventory & CRM software troubleshooting, technical support, data backups/recovery, smooth deployment of updates.</p>
-      </div>
-      <div class="card">
-        <h3 style="color:#60a5fa;">🌐 Network Administrating</h3>
-        <p>Network performance monitoring, connectivity troubleshooting, firewalls, IDS, security audits, threat mitigation, intrusion detection.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS & ACHIEVEMENTS together -->
-  <section id="skills">
-    <h2 class="section-title">// SKILLS & ACHIEVEMENTS</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 1.8rem;">
-      <div style="flex: 2; min-width: 220px;">
-        <div class="card" style="height:100%">
-          <h3 style="color:#60a5fa;">🧠 Core Competencies</h3>
-          <div style="margin-top: 0.8rem;">
-            <span class="skill-tag">Curiosity & Growth Mindset</span>
-            <span class="skill-tag">Attention to Detail</span>
-            <span class="skill-tag">Professionalism</span>
-            <span class="skill-tag">Interpersonal skills</span>
-            <span class="skill-tag">Quick learner</span>
-            <span class="skill-tag">Time conscious</span>
-            <span class="skill-tag">Critical thinking</span>
-            <span class="skill-tag">Health education</span>
-            <span class="skill-tag">Technological Judgement</span>
-            <span class="skill-tag">IT Implementation</span>
-            <span class="skill-tag">Ethical practice</span>
-          </div>
+    <!-- WORK EXPERIENCE + GENERAL EXPERIENCE -->
+    <section id="experience">
+        <h2 class="section-title">// WORK & GENERAL EXPERIENCE</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3 style="color:#60a5fa;">💼 Work History</h3>
+                <ul style="margin-left: 1.2rem; margin-top: 0.6rem;">
+                    <li>Mudi pharmacies Blantyre Kameza (4 months)</li>
+                    <li>Seven eleven pharmacy (4 months)</li>
+                    <li>Mudi pharmacy Mzimba Boma (3 months)</li>
+                    <li>Chiliconse enterprises LTD (8 months)</li>
+                    <li>Mudi Vet Clinic (5 months)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 style="color:#60a5fa;">🖥️ Computer & Systems</h3>
+                <p>e-Prescription systems, sales/prescription data analysis, DB management (patient records, inventory), software enhancement for inventory & sales.</p>
+            </div>
+            <div class="card">
+                <h3 style="color:#60a5fa;">📡 Hardware & Network Admin</h3>
+                <p>Security systems (cameras, access control), diagnosing hardware issues, network setup (LAN/WiFi), on-site server maintenance, IoT devices (smart refrigerators), asset logging.</p>
+            </div>
+            <div class="card">
+                <h3 style="color:#60a5fa;">🎨 Graphic Design & Web</h3>
+                <p>Marketing materials (flyers, brochures), Adobe Photoshop/Illustrator, front-end (HTML/CSS/JS), website design, user research, visual consistency across platforms.</p>
+            </div>
+            <div class="card">
+                <h3 style="color:#60a5fa;">🔧 Software Maintenance</h3>
+                <p>POS systems, inventory & CRM software troubleshooting, technical support, data backups/recovery, smooth deployment of updates.</p>
+            </div>
+            <div class="card">
+                <h3 style="color:#60a5fa;">🌐 Network Administrating</h3>
+                <p>Network performance monitoring, connectivity troubleshooting, firewalls, IDS, security audits, threat mitigation, intrusion detection.</p>
+            </div>
         </div>
-      </div>
-      <div style="flex: 1.5;">
-        <div class="card">
-          <h3 style="color:#60a5fa;">🏆 Achievements & Awards</h3>
-          <ul style="margin-top: 0.5rem; list-style: square; padding-left: 1.2rem;">
-            <li>Bambino High School: Sanitation Prefect (2016-2017)</li>
-            <li>Bedire International High School: Head Boy (2019-2020)</li>
-            <li>DMI University Mangochi: Class Representative (2020-2021)</li>
-          </ul>
+    </section>
+
+    <!-- SKILLS & ACHIEVEMENTS -->
+    <section id="skills">
+        <h2 class="section-title">// SKILLS & ACHIEVEMENTS</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1.8rem;">
+            <div style="flex: 2; min-width: 220px;">
+                <div class="card" style="height:100%">
+                    <h3 style="color:#60a5fa;">🧠 Core Competencies</h3>
+                    <div style="margin-top: 0.8rem;">
+                        <span class="skill-tag">Curiosity & Growth Mindset</span>
+                        <span class="skill-tag">Attention to Detail</span>
+                        <span class="skill-tag">Professionalism</span>
+                        <span class="skill-tag">Interpersonal skills</span>
+                        <span class="skill-tag">Quick learner</span>
+                        <span class="skill-tag">Time conscious</span>
+                        <span class="skill-tag">Critical thinking</span>
+                        <span class="skill-tag">Health education</span>
+                        <span class="skill-tag">Technological Judgement</span>
+                        <span class="skill-tag">IT Implementation</span>
+                        <span class="skill-tag">Ethical practice</span>
+                    </div>
+                </div>
+            </div>
+            <div style="flex: 1.5;">
+                <div class="card">
+                    <h3 style="color:#60a5fa;">🏆 Achievements & Awards</h3>
+                    <ul style="margin-top: 0.5rem; list-style: square; padding-left: 1.2rem;">
+                        <li>Bambino High School: Sanitation Prefect (2016-2017)</li>
+                        <li>Bedire International High School: Head Boy (2019-2020)</li>
+                        <li>DMI University Mangochi: Class Representative (2020-2021)</li>
+                    </ul>
+                </div>
+                <div class="card" style="margin-top: 1rem;">
+                    <h3 style="color:#60a5fa;">🗣️ Languages</h3>
+                    <p>English – Fluent &nbsp;|&nbsp; Chichewa – Fluent &nbsp;|&nbsp; Tumbuka – Fluent</p>
+                </div>
+            </div>
         </div>
-        <div class="card" style="margin-top: 1rem;">
-          <h3 style="color:#60a5fa;">🗣️ Languages</h3>
-          <p>English – Fluent &nbsp;|&nbsp; Chichewa – Fluent &nbsp;|&nbsp; Tumbuka – Fluent</p>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+        <h2 class="section-title">// EDUCATION</h2>
+        <div class="card-grid">
+            <div class="job-item" style="background:#11161f;">
+                <strong>🎓 Bambino High School (Lilongwe) 2014-2016</strong><br>Cambridge Checkpoint
+            </div>
+            <div class="job-item" style="background:#11161f;">
+                <strong>📖 Bedire International High School (Blantyre) 2019</strong><br>Cambridge A-Level
+            </div>
+            <div class="job-item" style="background:#11161f;">
+                <strong>🎓 DMI University Mangochi – 2026</strong><br>General Degree in Computer Science (BSc) – Graduating in May
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- EDUCATION -->
-  <section id="education">
-    <h2 class="section-title">// EDUCATION</h2>
-    <div class="card-grid">
-      <div class="job-item" style="background:#11161f;">
-        <strong>🎓 Bambino High School (Lilongwe) 2014-2016</strong><br>Cambridge Checkpoint
-      </div>
-      <div class="job-item" style="background:#11161f;">
-        <strong>📖 Bedire International High School (Blantyre) 2019</strong><br>Cambridge A-Level
-      </div>
-      <div class="job-item" style="background:#11161f;">
-        <strong>🎓 DMI University Mangochi – 2026</strong><br>General Degree in Computer Science (BSc) – Graduating in May
-      </div>
-    </div>
-  </section>
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+        <h2 class="section-title">// CERTIFICATIONS</h2>
+        <div class="card-grid">
+            <div class="card"><strong>CISCO NETWORKING ACADEMY (2024)</strong><br>Endpoint Security, CCNA Fundamentals</div>
+            <div class="card"><strong>ORACLE University (2025)</strong><br>Artificial Intelligence Vector Search Fundamentals</div>
+            <div class="card"><strong>CLASS CENTRAL (2025)</strong><br>Kubernetes Fundamentals – Server-side Operations</div>
+            <div class="card"><strong>HP Foundation (2025)</strong><br>Artificial Intelligence, Strategic Planning, Digital Business Skills</div>
+            <div class="card"><strong>Udemy (2025)</strong><br>Time Management, Graphic Design Fundamentals, UX Principles & Fundamentals</div>
+        </div>
+    </section>
 
-  <!-- CERTIFICATIONS -->
-  <section id="certifications">
-    <h2 class="section-title">// CERTIFICATIONS</h2>
-    <div class="card-grid">
-      <div class="card"><strong>CISCO NETWORKING ACADEMY (2024)</strong><br>Endpoint Security, CCNA Fundamentals</div>
-      <div class="card"><strong>ORACLE University (2025)</strong><br>Artificial Intelligence Vector Search Fundamentals</div>
-      <div class="card"><strong>CLASS CENTRAL (2025)</strong><br>Kubernetes Fundamentals – Server-side Operations</div>
-      <div class="card"><strong>HP Foundation (2025)</strong><br>Artificial Intelligence, Strategic Planning, Digital Business Skills</div>
-      <div class="card"><strong>Udemy (2025)</strong><br>Time Management, Graphic Design Fundamentals, UX Principles & Fundamentals</div>
-    </div>
-  </section>
-
-  <!-- CONTACT + REFERENCE -->
-  <section id="contact">
-    <h2 class="section-title">// CONTACT & REFERENCES</h2>
-    <div class="card" style="margin-bottom: 1rem;">
-      <p>📧 <strong>Email:</strong> sintekesekamalunga@gmail.com</p>
-      <p>📞 <strong>Phone:</strong> +265 99 589 3650 / +265 88 060 0852</p>
-      <p>📍 <strong>Location:</strong> Lilongwe, Malawi</p>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>👩‍⚕️ Dr Kholiwe Mkandawire</h3>
-        <p>Director at MUDI VET LILONGWE<br>📞 +265 997 23 62 64<br>✉️ mkandawirek@yahoo.com</p>
-      </div>
-      <div class="card">
-        <h3>🏥 Hon Getrude</h3>
-        <p>Director at MUDI PHARMACY Malawi<br>📞 +265 999 29 00 73<br>✉️ mudipharmacy@outlook.com</p>
-      </div>
-      <div class="card">
-        <h3>📊 Mr John Muhango</h3>
-        <p>General Manager at MUDI PHARACIES Blantyre<br>📞 +265 999 95 1733</p>
-      </div>
-      <div class="card">
-        <h3>💻 Dr Luhanga</h3>
-        <p>former HOD CS Dept, DMI UNIVERSITY MAGOCHI<br>📞 +265 998391144</p>
-      </div>
-    </div>
-  </section>
-  
-  <footer>
-    <p>© 2026 Sintekeseka Adrian Malunga — Typewriter aesthetics | Clean corporate blue & gray | Interactive mouse & click effects</p>
-  </footer>
+    <!-- CONTACT + REFERENCE -->
+    <section id="contact">
+        <h2 class="section-title">// CONTACT & REFERENCES</h2>
+        <div class="card" style="margin-bottom: 1rem;">
+            <p>📧 <strong>Email:</strong> sintekesekamalunga@gmail.com</p>
+            <p>📞 <strong>Phone:</strong> +265 99 589 3650 / +265 88 060 0852</p>
+            <p>📍 <strong>Location:</strong> Lilongwe, Malawi</p>
+        </div>
+        <div class="card-grid">
+            <div class="card">
+                <h3>👩‍⚕️ Dr Kholiwe Mkandawire</h3>
+                <p>Director at MUDI VET LILONGWE<br>📞 +265 997 23 62 64<br>✉️ mkandawirek@yahoo.com</p>
+            </div>
+            <div class="card">
+                <h3>🏥 Hon Getrude</h3>
+                <p>Director at MUDI PHARMACY Malawi<br>📞 +265 999 29 00 73<br>✉️ mudipharmacy@outlook.com</p>
+            </div>
+            <div class="card">
+                <h3>📊 Mr John Muhango</h3>
+                <p>General Manager at MUDI PHARACIES Blantyre<br>📞 +265 999 95 1733</p>
+            </div>
+            <div class="card">
+                <h3>💻 Dr Luhanga</h3>
+                <p>former HOD CS Dept, DMI UNIVERSITY MAGOCHI<br>📞 +265 998391144</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2026 Sintekeseka Adrian Malunga — Typewriter aesthetics | Clean corporate blue & gray | Interactive mouse & click effects</p>
+    </footer>
 </div>
 
-<!-- Mouse tracking effect (cursor trail) -->
-<div id="cursorTrail" class="cursor-trail" style="display: none;"></div>
-
-<script>
-  // --- HAMBURGER MENU LOGIC ---
-  const hamburger = document.getElementById('hamburgerBtn');
-  const navMenu = document.getElementById('navMenu');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  function closeMenu() {
-    if (navMenu.classList.contains('active')) {
-      navMenu.classList.remove('active');
-    }
-  }
-
-  hamburger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    navMenu.classList.toggle('active');
-  });
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      closeMenu();
-      const targetId = link.getAttribute('href').substring(1);
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        e.preventDefault();
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-        history.pushState(null, null, `#${targetId}`);
-      }
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    // if click outside hamburger & menu open, close
-    if (navMenu.classList.contains('active') && !hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-      closeMenu();
-    }
-  });
-
-  // --- MOUSE TRACKING EFFECT (intuitive dot trail) ---
-  const trail = document.getElementById('cursorTrail');
-  let mouseX = 0, mouseY = 0;
-  let trailVisible = false;
-
-  function updateTrailPosition() {
-    if (trailVisible) {
-      trail.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
-    }
-    requestAnimationFrame(updateTrailPosition);
-  }
-  updateTrailPosition();
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    if (!trailVisible) {
-      trail.style.display = 'block';
-      trailVisible = true;
-    }
-  });
-
-  document.addEventListener('mouseleave', () => {
-    trail.style.display = 'none';
-    trailVisible = false;
-  });
-
-  // --- CLICK RIPPLE / SELECTION EFFECT (additional fun click animation) ---
-  function createRipple(event) {
-    const ripple = document.createElement('div');
-    ripple.classList.add('click-ripple');
-    ripple.style.left = `${event.clientX - 10}px`;
-    ripple.style.top = `${event.clientY - 10}px`;
-    document.body.appendChild(ripple);
-    setTimeout(() => {
-      ripple.remove();
-    }, 500);
-  }
-  document.addEventListener('click', (e) => {
-    createRipple(e);
-    // also add an extra subtle 'click' selection sound? no, just style.
-    // but we ensure that any selected text gets cool style via ::selection
-  });
-
-  // --- Additional interactive text selection effect is already via CSS ::selection ---
-
-  // For mobile touch devices, we can remove cursor trail on touch to avoid clutter
-  if ('ontouchstart' in window) {
-    trail.style.display = 'none';
-  }
-
-  // --- smooth active nav highlight on scroll ---
-  const sections = document.querySelectorAll('section');
-  function setActiveLink() {
-    let current = '';
-    const scrollPos = window.scrollY + 100;
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionBottom = sectionTop + section.offsetHeight;
-      if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-        current = section.getAttribute('id');
-      }
-    });
-    navLinks.forEach(link => {
-      link.style.color = '#cbd5e1';
-      link.style.borderBottomColor = 'transparent';
-      if (link.getAttribute('href') === `#${current}`) {
-        link.style.color = '#3b82f6';
-        link.style.borderBottomColor = '#3b82f6';
-      }
-    });
-  }
-  window.addEventListener('scroll', setActiveLink);
-  setActiveLink();
-
-  // fix anchor initial if hash exists
-  if (window.location.hash) {
-    const id = window.location.hash.substring(1);
-    const el = document.getElementById(id);
-    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
-  }
-</script>
-
-<!-- Additional responsive performance & any missing data from CV included fully -->
+<script src="script.js"></script>
 </body>
 </html>
