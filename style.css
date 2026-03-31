@@ -1,0 +1,67 @@
+:root {
+    --corp-blue: #003366;
+    --dark-gray: #2d2d2d;
+    --light-text: #f4f4f4;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+    background-color: var(--dark-gray);
+    color: var(--light-text);
+    font-family: var(--font-mono);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 100;
+}
+
+.hamburger span {
+    width: 30px;
+    height: 3px;
+    background: var(--corp-blue);
+    transition: 0.3s;
+}
+
+.nav-links {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    height: 100vh;
+    width: 70%;
+    background: var(--corp-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.nav-links.active { right: 0; }
+
+/* Mouse Tracker */
+.cursor-tracker {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--corp-blue);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transition: transform 0.1s ease;
+}
+
+/* Mobile Responsiveness */
+@media (min-width: 768px) {
+    .nav-links {
+        position: static;
+        flex-direction: row;
+        height: auto;
+        background: transparent;
+    }
+    .hamburger { display: none; }
+}
