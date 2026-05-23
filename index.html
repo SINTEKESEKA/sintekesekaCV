@@ -1,200 +1,2365 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sintekeseka Malunga | CS Graduate Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sintekeseka Adrian Malunga | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    :root {
+      --primary: #018AF5;
+      --primary-glow: rgba(1, 138, 245, 0.4);
+      --primary-light: rgba(1, 138, 245, 0.15);
+      --primary-dark: #0066bb;
+      --accent: #00d4ff;
+      --accent-glow: rgba(0, 212, 255, 0.3);
+
+      /* Dark Mode (default) */
+      --bg-primary: #030b18;
+      --bg-secondary: #050f20;
+      --bg-tertiary: #071428;
+      --glass-bg: rgba(1, 138, 245, 0.05);
+      --glass-bg-hover: rgba(1, 138, 245, 0.12);
+      --glass-border: rgba(1, 138, 245, 0.2);
+      --glass-border-hover: rgba(1, 138, 245, 0.5);
+      --glass-shadow: rgba(1, 138, 245, 0.15);
+      --text-primary: #e8f4ff;
+      --text-secondary: #8ab4d4;
+      --text-muted: #4a7a9b;
+      --text-accent: #018AF5;
+      --nav-bg: rgba(3, 11, 24, 0.85);
+      --card-bg: rgba(5, 15, 32, 0.6);
+      --scrollbar-bg: #030b18;
+      --scrollbar-thumb: rgba(1, 138, 245, 0.4);
+      --node-color: rgba(1, 138, 245, 0.25);
+      --node-glow: rgba(1, 138, 245, 0.5);
+      --line-color: rgba(1, 138, 245, 0.08);
+      --grid-color: rgba(1, 138, 245, 0.04);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #e8f4ff;
+      --bg-secondary: #d0e8fb;
+      --bg-tertiary: #c0daf7;
+      --glass-bg: rgba(255, 255, 255, 0.45);
+      --glass-bg-hover: rgba(255, 255, 255, 0.65);
+      --glass-border: rgba(1, 138, 245, 0.25);
+      --glass-border-hover: rgba(1, 138, 245, 0.55);
+      --glass-shadow: rgba(1, 138, 245, 0.2);
+      --text-primary: #02244a;
+      --text-secondary: #1a5080;
+      --text-muted: #3a7ab0;
+      --text-accent: #0066bb;
+      --nav-bg: rgba(232, 244, 255, 0.88);
+      --card-bg: rgba(255, 255, 255, 0.55);
+      --scrollbar-bg: #e8f4ff;
+      --scrollbar-thumb: rgba(1, 138, 245, 0.5);
+      --node-color: rgba(1, 138, 245, 0.18);
+      --node-glow: rgba(1, 138, 245, 0.35);
+      --line-color: rgba(1, 138, 245, 0.1);
+      --grid-color: rgba(1, 138, 245, 0.06);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Rajdhani', 'Share Tech Mono', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* ===== LIVE BACKGROUND CANVAS ===== */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== GRID OVERLAY ===== */
+    .grid-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    /* ===== MAIN WRAPPER ===== */
+    .main-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== GLASS MIXIN ===== */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 8px 32px var(--glass-shadow),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .glass:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      box-shadow:
+        0 12px 40px var(--glass-shadow),
+        0 0 20px var(--primary-glow),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(25px) saturate(200%);
+      -webkit-backdrop-filter: blur(25px) saturate(200%);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 4px 30px rgba(1, 138, 245, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px var(--primary-glow);
+      white-space: nowrap;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .nav-links a:hover::after { width: 70%; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      width: 52px;
+      height: 26px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 13px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+      transition: transform 0.3s ease;
+    }
+
+    [data-theme="light"] .theme-toggle::before {
+      transform: translateX(26px);
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .theme-icon {
+      position: absolute;
+      top: 50%; left: 6px;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    [data-theme="light"] .theme-icon {
+      left: auto; right: 6px;
+    }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      border: none;
+      background: transparent;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 6px var(--primary-glow);
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0;
+      width: 100%; height: calc(100vh - 70px);
+      background: var(--nav-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu a {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      background: var(--glass-bg);
+      transition: all 0.3s ease;
+      width: 260px;
+      text-align: center;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 100px 1.5rem 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--primary);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .section-title .highlight {
+      color: var(--primary);
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      margin: 1rem auto 0;
+      border-radius: 2px;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    /* ===== HERO SECTION ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 70px;
+      max-width: 100%;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {}
+
+    .hero-greeting {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--primary);
+      letter-spacing: 4px;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .hero-greeting::before {
+      content: '> ';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      animation: fadeInUp 0.7s 0.1s ease both;
+    }
+
+    .hero-name .first { color: var(--text-primary); }
+    .hero-name .last {
+      color: var(--primary);
+      text-shadow: 0 0 30px var(--primary-glow);
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s 0.2s ease both;
+    }
+
+    .hero-bio {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.9s 0.3s ease both;
+    }
+
+    .hero-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s 0.4s ease both;
+    }
+
+    .hero-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-detail-item .detail-icon {
+      color: var(--primary);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1.1s 0.5s ease both;
+    }
+
+    .btn-primary {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 0.85rem 2rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-outline {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px var(--primary-glow);
+    }
+
+    /* ===== HERO PROFILE ===== */
+    .hero-profile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeInRight 1s 0.3s ease both;
+    }
+
+    .profile-ring-outer {
+      position: relative;
+      width: 320px;
+      height: 320px;
+    }
+
+    @media (max-width: 900px) {
+      .profile-ring-outer { width: 240px; height: 240px; }
+    }
+
+    .profile-ring-outer::before,
+    .profile-ring-outer::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      animation: spin 10s linear infinite;
+    }
+
+    .profile-ring-outer::before {
+      inset: -20px;
+      border-color: var(--primary) transparent var(--primary) transparent;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .profile-ring-outer::after {
+      inset: -35px;
+      border-color: transparent var(--accent) transparent var(--accent);
+      animation-duration: 15s;
+      animation-direction: reverse;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .profile-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--glass-bg);
+      border: 3px solid var(--glass-border);
+      box-shadow:
+        0 0 40px var(--primary-glow),
+        inset 0 0 40px rgba(1, 138, 245, 0.1);
+      z-index: 1;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(1, 138, 245, 0.2) 0%,
+        transparent 50%,
+        rgba(0, 212, 255, 0.1) 100%
+      );
+      z-index: 2;
+      border-radius: 50%;
+    }
+
+    .profile-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+      filter: brightness(1.05) contrast(1.05);
+    }
+
+    /* ===== STATS STRIP ===== */
+    .stats-strip {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem 1rem;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .stat-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-shadow: 0 0 15px var(--primary-glow);
+      display: block;
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .about-text {
+      padding: 2rem;
+      border-radius: 16px;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .about-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-item {
+      padding: 0.75rem;
+      border-radius: 8px;
+      background: var(--primary-light);
+      border: 1px solid var(--glass-border);
+    }
+
+    .info-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--primary);
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .languages-panel {
+      padding: 2rem;
+      border-radius: 16px;
+    }
+
+    .lang-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .lang-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 1px;
+    }
+
+    .lang-level {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--primary);
+    }
+
+    .lang-bar {
+      height: 6px;
+      background: var(--glass-bg);
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+    }
+
+    .lang-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+      box-shadow: 0 0 8px var(--primary-glow);
+      transition: width 1s ease;
+    }
+
+    /* ===== SKILLS SECTION ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      padding: 1.75rem;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+      border-radius: 0 4px 4px 0;
+    }
+
+    .skill-cat-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 1.25rem;
+      padding-left: 0.75rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .skill-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-primary);
+      background: var(--primary-light);
+      border: 1px solid var(--glass-border);
+      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .skill-tag:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ===== EXPERIENCE SECTION ===== */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 2px; height: 100%;
+      background: linear-gradient(180deg, var(--primary), transparent);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 1.5rem 1.5rem 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.55rem;
+      top: 1.75rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--bg-primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .timeline-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--primary);
+      opacity: 0.4;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .timeline-company {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-duration {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    .timeline-desc {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== EXPERIENCE RESPONSIBILITIES ===== */
+    .exp-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .exp-card {
+      padding: 1.75rem;
+      border-radius: 16px;
+    }
+
+    .exp-card-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .exp-card-title .icon {
+      font-size: 1rem;
+    }
+
+    .exp-list {
+      list-style: none;
+    }
+
+    .exp-list li {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding: 0.4rem 0;
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .exp-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 0.7rem;
+    }
+
+    /* ===== EDUCATION SECTION ===== */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .edu-card {
+      padding: 1.75rem;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .edu-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, var(--primary-light), transparent);
+      border-radius: 50% 0 0 0;
+    }
+
+    .edu-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-institution {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .edu-degree {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .edu-badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.3rem 0.75rem;
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    /* ===== CERTIFICATIONS SECTION ===== */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .cert-card {
+      padding: 1.5rem;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .cert-issuer {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .cert-year-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .cert-items {
+      list-style: none;
+      margin-top: 0.75rem;
+    }
+
+    .cert-items li {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding: 0.35rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .cert-items li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 0.45rem;
+      top: 0.55rem;
+    }
+
+    /* ===== ACHIEVEMENTS ===== */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .achievement-card {
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achievement-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .achievement-school {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .achievement-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .achievement-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    /* ===== REFERENCES SECTION ===== */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .ref-card {
+      padding: 1.5rem;
+      border-radius: 14px;
+    }
+
+    .ref-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .ref-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .ref-contact {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .ref-contact a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .ref-contact a:hover { text-decoration: underline; }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .contact-info {
+      padding: 2rem;
+      border-radius: 16px;
+    }
+
+    .contact-info-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: var(--primary-light);
+      border: 1px solid var(--glass-border);
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .contact-item-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      display: block;
+    }
+
+    .contact-item-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .contact-item-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-form {
+      padding: 2rem;
+      border-radius: 16px;
+    }
+
+    .contact-form-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      outline: none;
+      resize: none;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+      background: var(--glass-bg-hover);
+    }
+
+    .form-textarea { height: 120px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2.5rem;
+      }
+
+      .hero-details { grid-template-columns: 1fr; }
+      .hero-buttons { justify-content: center; }
+      .hero-profile { order: -1; }
+
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      section { padding: 80px 1rem 50px; }
+      .profile-ring-outer { width: 220px; height: 220px; }
+    }
+
+    /* ===== FLOATING PARTICLES EXTRAS ===== */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) scale(1); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(0.3); }
+    }
+
+    /* ===== CURSOR GLOW ===== */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(1, 138, 245, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- navigation -->
-    <nav class="navbar">
-        <div class="logo">&lt;SINTEKESEKA./&gt; <span>| CS Graduate</span></div>
-        <button class="hamburger" id="hamburgerBtn" aria-label="menu">
-            <span></span><span></span><span></span>
-        </button>
-        <ul class="nav-menu" id="navMenu">
-            <li><a href="#home" class="nav-link">HOME</a></li>
-            <li><a href="#experience" class="nav-link">EXPERIENCE</a></li>
-            <li><a href="#skills" class="nav-link">SKILLS</a></li>
-            <li><a href="#education" class="nav-link">EDUCATION</a></li>
-            <li><a href="#certifications" class="nav-link">CERTIFICATIONS</a></li>
-            <li><a href="#contact" class="nav-link">CONTACT</a></li>
-        </ul>
-    </nav>
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- HERO / HOME section with profile photo -->
-    <section id="home">
-        <div class="hero-section">
-            <div class="profile-photo">
-                <!-- Replace 'images/profile.jpg' with your actual photo path -->
-                <img src="images/image01.jpg" alt="Sintekeseka Adrian Malunga" id="profileImg">
-                <div class="photo-placeholder" id="photoPlaceholder">
-                    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="60" cy="60" r="58" stroke="#3b82f6" stroke-width="2" fill="#1e293b"/>
-                        <circle cx="60" cy="45" r="18" stroke="#3b82f6" stroke-width="2" fill="#0f172a"/>
-                        <path d="M30 85 Q60 100 90 85" stroke="#3b82f6" stroke-width="2" fill="none"/>
-                    </svg>
-                    <p>Add Your Photo</p>
-                </div>
-            </div>
-            <div class="personal-detail">
-                <div class="detail-block">
-                    <p><strong style="color:#3b82f6">NAME:</strong> SINTEKESEKA ADRIAN MALUNGA</p>
-                    <p><strong style="color:#3b82f6">ADDRESS:</strong> Likuni Turn Off Corner P.O Box 1914 Lilongwe</p>
-                    <p><strong style="color:#3b82f6">EMAIL:</strong> sintekesekamalunga@gmail.com</p>
-                    <p><strong style="color:#3b82f6">PHONE:</strong> +265 99 589 3650 / +265 88 060 0852</p>
-                    <p><strong style="color:#3b82f6">DOB:</strong> 21st July 2000</p>
-                    <p><strong style="color:#3b82f6">NATIONALITY:</strong> Malawian | <strong>GENDER:</strong> Male</p>
-                </div>
-            </div>
-        </div>
-        <div class="card" style="background:#0e131c;">
-            <h3 style="color:#3b82f6;">⚡ OBJECTIVE</h3>
-            <p>To obtain a position that fosters continuous professional growth in a fast-evolving digital landscape. Leverage technical expertise and problem-solving abilities to contribute to innovative projects and improve organizational efficiency. Strong foundation in software development, data analysis, and system troubleshooting — committed to delivering high-quality solutions and collaborating with dynamic teams.</p>
-        </div>
-    </section>
+<!-- ANIMATED BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
 
-    <!-- WORK EXPERIENCE + GENERAL EXPERIENCE -->
-    <section id="experience">
-        <h2 class="section-title">// WORK & GENERAL EXPERIENCE</h2>
-        <div class="card-grid">
-            <div class="card">
-                <h3 style="color:#60a5fa;">💼 Work History</h3>
-                <ul style="margin-left: 1.2rem; margin-top: 0.6rem;">
-                    <li>Mudi pharmacies Blantyre Kameza (4 months)</li>
-                    <li>Seven eleven pharmacy (4 months)</li>
-                    <li>Mudi pharmacy Mzimba Boma (3 months)</li>
-                    <li>Chiliconse enterprises LTD (8 months)</li>
-                    <li>Mudi Vet Clinic (5 months)</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 style="color:#60a5fa;">🖥️ Computer & Systems</h3>
-                <p>e-Prescription systems, sales/prescription data analysis, DB management (patient records, inventory), software enhancement for inventory & sales.</p>
-            </div>
-            <div class="card">
-                <h3 style="color:#60a5fa;">📡 Hardware & Network Admin</h3>
-                <p>Security systems (cameras, access control), diagnosing hardware issues, network setup (LAN/WiFi), on-site server maintenance, IoT devices (smart refrigerators), asset logging.</p>
-            </div>
-            <div class="card">
-                <h3 style="color:#60a5fa;">🎨 Graphic Design & Web</h3>
-                <p>Marketing materials (flyers, brochures), Adobe Photoshop/Illustrator, front-end (HTML/CSS/JS), website design, user research, visual consistency across platforms.</p>
-            </div>
-            <div class="card">
-                <h3 style="color:#60a5fa;">🔧 Software Maintenance</h3>
-                <p>POS systems, inventory & CRM software troubleshooting, technical support, data backups/recovery, smooth deployment of updates.</p>
-            </div>
-            <div class="card">
-                <h3 style="color:#60a5fa;">🌐 Network Administrating</h3>
-                <p>Network performance monitoring, connectivity troubleshooting, firewalls, IDS, security audits, threat mitigation, intrusion detection.</p>
-            </div>
-        </div>
-    </section>
+<!-- GRID OVERLAY -->
+<div class="grid-overlay"></div>
 
-    <!-- SKILLS & ACHIEVEMENTS -->
-    <section id="skills">
-        <h2 class="section-title">// SKILLS & ACHIEVEMENTS</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 1.8rem;">
-            <div style="flex: 2; min-width: 220px;">
-                <div class="card" style="height:100%">
-                    <h3 style="color:#60a5fa;">🧠 Core Competencies</h3>
-                    <div style="margin-top: 0.8rem;">
-                        <span class="skill-tag">Curiosity & Growth Mindset</span>
-                        <span class="skill-tag">Attention to Detail</span>
-                        <span class="skill-tag">Professionalism</span>
-                        <span class="skill-tag">Interpersonal skills</span>
-                        <span class="skill-tag">Quick learner</span>
-                        <span class="skill-tag">Time conscious</span>
-                        <span class="skill-tag">Critical thinking</span>
-                        <span class="skill-tag">Health education</span>
-                        <span class="skill-tag">Technological Judgement</span>
-                        <span class="skill-tag">IT Implementation</span>
-                        <span class="skill-tag">Ethical practice</span>
-                    </div>
-                </div>
-            </div>
-            <div style="flex: 1.5;">
-                <div class="card">
-                    <h3 style="color:#60a5fa;">🏆 Achievements & Awards</h3>
-                    <ul style="margin-top: 0.5rem; list-style: square; padding-left: 1.2rem;">
-                        <li>Bambino High School: Sanitation Prefect (2016-2017)</li>
-                        <li>Bedire International High School: Head Boy (2019-2020)</li>
-                        <li>DMI University Mangochi: Class Representative (2020-2021)</li>
-                    </ul>
-                </div>
-                <div class="card" style="margin-top: 1rem;">
-                    <h3 style="color:#60a5fa;">🗣️ Languages</h3>
-                    <p>English – Fluent &nbsp;|&nbsp; Chichewa – Fluent &nbsp;|&nbsp; Tumbuka – Fluent</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ===== NAVIGATION ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">S<span>.</span>MALUNGA</a>
 
-    <!-- EDUCATION -->
-    <section id="education">
-        <h2 class="section-title">// EDUCATION</h2>
-        <div class="card-grid">
-            <div class="job-item" style="background:#11161f;">
-                <strong>🎓 Bambino High School (Lilongwe) 2014-2016</strong><br>Cambridge Checkpoint
-            </div>
-            <div class="job-item" style="background:#11161f;">
-                <strong>📖 Bedire International High School (Blantyre) 2019</strong><br>Cambridge A-Level
-            </div>
-            <div class="job-item" style="background:#11161f;">
-                <strong>🎓 DMI University Mangochi – 2026</strong><br>General Degree in Computer Science (BSc) – Graduating in May
-            </div>
-        </div>
-    </section>
+    <ul class="nav-links">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#skills">SKILLS</a></li>
+      <li><a href="#experience">EXPERIENCE</a></li>
+      <li><a href="#education">EDUCATION</a></li>
+      <li><a href="#certifications">CERTS</a></li>
+      <li><a href="#achievements">AWARDS</a></li>
+      <li><a href="#references">REFS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
 
-    <!-- CERTIFICATIONS -->
-    <section id="certifications">
-        <h2 class="section-title">// CERTIFICATIONS</h2>
-        <div class="card-grid">
-            <div class="card"><strong>CISCO NETWORKING ACADEMY (2024)</strong><br>Endpoint Security, CCNA Fundamentals</div>
-            <div class="card"><strong>ORACLE University (2025)</strong><br>Artificial Intelligence Vector Search Fundamentals</div>
-            <div class="card"><strong>CLASS CENTRAL (2025)</strong><br>Kubernetes Fundamentals – Server-side Operations</div>
-            <div class="card"><strong>HP Foundation (2025)</strong><br>Artificial Intelligence, Strategic Planning, Digital Business Skills</div>
-            <div class="card"><strong>Udemy (2025)</strong><br>Time Management, Graphic Design Fundamentals, UX Principles & Fundamentals</div>
-        </div>
-    </section>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
 
-    <!-- CONTACT + REFERENCE -->
-    <section id="contact">
-        <h2 class="section-title">// CONTACT & REFERENCES</h2>
-        <div class="card" style="margin-bottom: 1rem;">
-            <p>📧 <strong>Email:</strong> sintekesekamalunga@gmail.com</p>
-            <p>📞 <strong>Phone:</strong> +265 99 589 3650 / +265 88 060 0852</p>
-            <p>📍 <strong>Location:</strong> Lilongwe, Malawi</p>
-        </div>
-        <div class="card-grid">
-            <div class="card">
-                <h3>👩‍⚕️ Dr Kholiwe Mkandawire</h3>
-                <p>Director at MUDI VET LILONGWE<br>📞 +265 997 23 62 64<br>✉️ mkandawirek@yahoo.com</p>
-            </div>
-            <div class="card">
-                <h3>🏥 Hon Getrude</h3>
-                <p>Director at MUDI PHARMACY Malawi<br>📞 +265 999 29 00 73<br>✉️ mudipharmacy@outlook.com</p>
-            </div>
-            <div class="card">
-                <h3>📊 Mr John Muhango</h3>
-                <p>General Manager at MUDI PHARACIES Blantyre<br>📞 +265 999 95 1733</p>
-            </div>
-            <div class="card">
-                <h3>💻 Dr Luhanga</h3>
-                <p>former HOD CS Dept, DMI UNIVERSITY MAGOCHI<br>📞 +265 998391144</p>
-            </div>
-        </div>
-    </section>
-    
-    <footer>
-        <p>© 2026 Sintekeseka Adrian Malunga — Typewriter aesthetics | Clean corporate blue & gray | Interactive mouse & click effects</p>
-    </footer>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">ABOUT</a>
+  <a href="#skills" onclick="closeMenu()">SKILLS</a>
+  <a href="#experience" onclick="closeMenu()">EXPERIENCE</a>
+  <a href="#education" onclick="closeMenu()">EDUCATION</a>
+  <a href="#certifications" onclick="closeMenu()">CERTIFICATIONS</a>
+  <a href="#achievements" onclick="closeMenu()">ACHIEVEMENTS</a>
+  <a href="#references" onclick="closeMenu()">REFERENCES</a>
+  <a href="#contact" onclick="closeMenu()">CONTACT</a>
 </div>
 
-<script src="script.js"></script>
+<!-- ===== MAIN WRAPPER ===== -->
+<div class="main-wrapper">
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" style="padding-top:70px; max-width:100%; padding-left:1.5rem; padding-right:1.5rem; display:flex; align-items:center; min-height:100vh;">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-greeting">COMPUTER SCIENCE GRADUATE</p>
+        <h1 class="hero-name">
+          <span class="first">SINTEKESEKA<br>ADRIAN </span>
+          <span class="last">MALUNGA</span>
+        </h1>
+        <p class="hero-title">SOFTWARE DEV · NETWORK ADMIN · IT SPECIALIST</p>
+        <p class="hero-bio">
+          A dynamic IT professional and Computer Science graduate from DMI University Mangochi, 
+          passionate about building innovative digital solutions. Experienced in software development, 
+          database management, network administration, hardware systems, and graphic design.
+        </p>
+
+        <div class="hero-details">
+          <div class="hero-detail-item">
+            <span class="detail-icon">📍</span>
+            <span>Lilongwe, Malawi</span>
+          </div>
+          <div class="hero-detail-item">
+            <span class="detail-icon">📧</span>
+            <span>sintekesekamalunga@gmail.com</span>
+          </div>
+          <div class="hero-detail-item">
+            <span class="detail-icon">📱</span>
+            <span>+265 99 589 3650</span>
+          </div>
+          <div class="hero-detail-item">
+            <span class="detail-icon">🎓</span>
+            <span>BSc Computer Science 2026</span>
+          </div>
+          <div class="hero-detail-item">
+            <span class="detail-icon">🌍</span>
+            <span>Malawian · Christian</span>
+          </div>
+          <div class="hero-detail-item">
+            <span class="detail-icon">🗓️</span>
+            <span>Born 21 July 2000</span>
+          </div>
+        </div>
+
+        <div class="hero-buttons">
+          <a href="#contact" class="btn-primary">⚡ GET IN TOUCH</a>
+          <a href="#experience" class="btn-outline">◎ VIEW EXPERIENCE</a>
+        </div>
+      </div>
+
+      <div class="hero-profile">
+        <div class="profile-ring-outer">
+          <div class="profile-card">
+            <img src="image01.jpg" alt="Sintekeseka Adrian Malunga" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS STRIP ===== -->
+  <div class="stats-strip">
+    <div class="stat-card glass reveal">
+      <span class="stat-number">5+</span>
+      <span class="stat-label">WORK PLACEMENTS</span>
+    </div>
+    <div class="stat-card glass reveal">
+      <span class="stat-number">8</span>
+      <span class="stat-label">CERTIFICATIONS</span>
+    </div>
+    <div class="stat-card glass reveal">
+      <span class="stat-number">3</span>
+      <span class="stat-label">LANGUAGES SPOKEN</span>
+    </div>
+    <div class="stat-card glass reveal">
+      <span class="stat-number">3</span>
+      <span class="stat-label">LEADERSHIP AWARDS</span>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-tag">// WHO AM I</span>
+      <h2 class="section-title">ABOUT <span class="highlight">ME</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text glass reveal">
+        <p>
+          I am <strong style="color:var(--primary)">Sintekeseka Adrian Malunga</strong>, a dedicated Computer Science student 
+          graduating with a BSc from DMI University Mangochi in May 2026. I am passionate about 
+          leveraging technology to solve real-world challenges.
+        </p>
+        <p>
+          My objective is to obtain a position that fosters continuous professional growth in a 
+          fast-evolving digital landscape. I aim to leverage my technical expertise and problem-solving 
+          abilities to contribute to innovative projects and improve organizational efficiency.
+        </p>
+        <p>
+          With a strong foundation in software development, data analysis, and system troubleshooting, 
+          I am committed to delivering high-quality solutions. My goal is to collaborate with a dynamic 
+          team, apply my skills effectively, and gain hands-on experience to enhance both my technical 
+          and interpersonal competencies.
+        </p>
+
+        <div class="about-info-grid">
+          <div class="info-item">
+            <span class="info-label">// NATIONALITY</span>
+            <span class="info-value">Malawian</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">// GENDER</span>
+            <span class="info-value">Male</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">// DATE OF BIRTH</span>
+            <span class="info-value">21 July 2000</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">// RELIGION</span>
+            <span class="info-value">Christian</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">// LOCATION</span>
+            <span class="info-value">Lilongwe, Malawi</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">// STATUS</span>
+            <span class="info-value">Open to Work</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="languages-panel glass reveal">
+        <div class="section-header" style="margin-bottom:1.5rem;text-align:left;">
+          <span class="section-tag" style="font-size:0.65rem;">// LANGUAGES SPOKEN</span>
+          <h3 style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--text-primary);letter-spacing:1px;">COMMUNICATION SKILLS</h3>
+        </div>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">ENGLISH</span>
+            <span class="lang-level">FLUENT</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:95%"></div></div>
+        </div>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">CHICHEWA</span>
+            <span class="lang-level">FLUENT</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+        </div>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">TUMBUKA</span>
+            <span class="lang-level">FLUENT</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:90%"></div></div>
+        </div>
+
+        <div style="margin-top:2rem;">
+          <div class="section-header" style="margin-bottom:1rem;text-align:left;">
+            <span class="section-tag" style="font-size:0.65rem;">// SOFT SKILLS</span>
+            <h3 style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:var(--text-primary);letter-spacing:1px;">PERSONAL ATTRIBUTES</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Growth Mindset</span>
+            <span class="skill-tag">Attention to Detail</span>
+            <span class="skill-tag">Professionalism</span>
+            <span class="skill-tag">Interpersonal Skills</span>
+            <span class="skill-tag">Quick Learner</span>
+            <span class="skill-tag">Time Conscious</span>
+            <span class="skill-tag">Critical Thinking</span>
+            <span class="skill-tag">Calm Under Pressure</span>
+            <span class="skill-tag">Ethical Practice</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS ===== -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-tag">// CAPABILITIES</span>
+      <h2 class="section-title">TECHNICAL <span class="highlight">SKILLS</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">💻 SOFTWARE DEVELOPMENT</p>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Software Maintenance</span>
+          <span class="skill-tag">POS Systems</span>
+          <span class="skill-tag">CRM Software</span>
+          <span class="skill-tag">Inventory Systems</span>
+          <span class="skill-tag">System Updates</span>
+        </div>
+      </div>
+
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">🗄️ DATA & DATABASE</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Database Design</span>
+          <span class="skill-tag">SQL Querying</span>
+          <span class="skill-tag">Database Management</span>
+          <span class="skill-tag">Data Analysis</span>
+          <span class="skill-tag">Data Backup</span>
+          <span class="skill-tag">Data Recovery</span>
+          <span class="skill-tag">Patient Records</span>
+          <span class="skill-tag">Inventory Databases</span>
+        </div>
+      </div>
+
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">🔌 NETWORK & HARDWARE</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Network Administration</span>
+          <span class="skill-tag">Firewall Configuration</span>
+          <span class="skill-tag">Intrusion Detection</span>
+          <span class="skill-tag">Hardware Troubleshooting</span>
+          <span class="skill-tag">Server Maintenance</span>
+          <span class="skill-tag">LAN Setup</span>
+          <span class="skill-tag">IoT Devices</span>
+          <span class="skill-tag">Security Systems</span>
+          <span class="skill-tag">CCNA</span>
+        </div>
+      </div>
+
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">🎨 DESIGN & MEDIA</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Adobe Photoshop</span>
+          <span class="skill-tag">Adobe Illustrator</span>
+          <span class="skill-tag">Graphic Design</span>
+          <span class="skill-tag">UI/UX Principles</span>
+          <span class="skill-tag">Web Design</span>
+          <span class="skill-tag">Brochures & Flyers</span>
+          <span class="skill-tag">Social Media Graphics</span>
+          <span class="skill-tag">User Research</span>
+        </div>
+      </div>
+
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">🤖 EMERGING TECH</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Artificial Intelligence</span>
+          <span class="skill-tag">AI Vector Search</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Digital Business</span>
+          <span class="skill-tag">Strategic Planning</span>
+          <span class="skill-tag">End-Point Security</span>
+          <span class="skill-tag">Electronic Prescriptions</span>
+        </div>
+      </div>
+
+      <div class="skill-category glass reveal">
+        <p class="skill-cat-title">📊 OPERATIONS & MANAGEMENT</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Time Management</span>
+          <span class="skill-tag">IT Implementation</span>
+          <span class="skill-tag">Health Promotion</span>
+          <span class="skill-tag">Security Audits</span>
+          <span class="skill-tag">Asset Management</span>
+          <span class="skill-tag">Technical Support</span>
+          <span class="skill-tag">Prescription Management</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXPERIENCE ===== -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-tag">// WORK HISTORY</span>
+      <h2 class="section-title">WORK <span class="highlight">EXPERIENCE</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline-item glass">
+        <div class="timeline-dot"></div>
+        <p class="timeline-company">CHILICONSE ENTERPRISES LTD</p>
+        <p class="timeline-duration">⏱ 8 MONTHS · LONGEST TENURE</p>
+        <p class="timeline-desc">Comprehensive IT support, system maintenance, and technology operations across enterprise systems.</p>
+      </div>
+
+      <div class="timeline-item glass">
+        <div class="timeline-dot"></div>
+        <p class="timeline-company">MUDI VET CLINIC</p>
+        <p class="timeline-duration">⏱ 5 MONTHS · LILONGWE</p>
+        <p class="timeline-desc">IT systems management, database maintenance for clinic records, and hardware support for veterinary operations.</p>
+      </div>
+
+      <div class="timeline-item glass">
+        <div class="timeline-dot"></div>
+        <p class="timeline-company">MUDI PHARMACIES BLANTYRE KAMEZA</p>
+        <p class="timeline-duration">⏱ 4 MONTHS · BLANTYRE</p>
+        <p class="timeline-desc">Electronic prescription systems, inventory database management, and pharmacy software support.</p>
+      </div>
+
+      <div class="timeline-item glass">
+        <div class="timeline-dot"></div>
+        <p class="timeline-company">SEVEN ELEVEN PHARMACY</p>
+        <p class="timeline-duration">⏱ 4 MONTHS</p>
+        <p class="timeline-desc">Software maintenance for POS and inventory systems, network administration and technical support to staff.</p>
+      </div>
+
+      <div class="timeline-item glass">
+        <div class="timeline-dot"></div>
+        <p class="timeline-company">MUDI PHARMACY MZIMBA BOMA</p>
+        <p class="timeline-duration">⏱ 3 MONTHS · MZIMBA</p>
+        <p class="timeline-desc">Hardware installation, system configuration, and database management for pharmacy operations.</p>
+      </div>
+    </div>
+
+    <!-- Experience Categories -->
+    <div class="section-header reveal" style="margin-top:3rem;">
+      <span class="section-tag">// RESPONSIBILITIES</span>
+      <h3 class="section-title" style="font-size:1.5rem;">KEY <span class="highlight">RESPONSIBILITIES</span></h3>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="exp-categories">
+      <div class="exp-card glass reveal">
+        <p class="exp-card-title"><span class="icon">💻</span> COMPUTER SYSTEMS</p>
+        <ul class="exp-list">
+          <li>Working on systems allowing doctors to send prescriptions electronically to pharmacy</li>
+          <li>Analyzing sales/prescription data to identify trends and inventory shortages</li>
+          <li>Designing, querying, and maintaining databases for patient records and inventory</li>
+          <li>Assisting in development or enhancement of software for inventory and prescription management</li>
+        </ul>
+      </div>
+
+      <div class="exp-card glass reveal">
+        <p class="exp-card-title"><span class="icon">🔧</span> HARDWARE MANAGEMENT</p>
+        <ul class="exp-list">
+          <li>Managing security systems including cameras, access control, and alarm hardware</li>
+          <li>Diagnosing and resolving hardware issues with computers, barcode scanners, printers, and monitors</li>
+          <li>Setting up secure local networks connecting computers, servers, and pharmacy applications</li>
+          <li>Maintaining on-site servers ensuring adequate storage and backup for patient data</li>
+          <li>Working with IoT devices such as smart refrigerators for medication temperature monitoring</li>
+          <li>Keeping track of hardware assets and ensuring compliance with company standards</li>
+        </ul>
+      </div>
+
+      <div class="exp-card glass reveal">
+        <p class="exp-card-title"><span class="icon">🎨</span> GRAPHIC DESIGN & PUBLICATION</p>
+        <ul class="exp-list">
+          <li>Creating marketing materials including brochures, flyers, and social media graphics</li>
+          <li>Developing visual consistency across web, mobile, and print platforms</li>
+          <li>Assisting in design and development of websites and web applications</li>
+          <li>Editing and manipulating images using Adobe Photoshop and Illustrator</li>
+          <li>Working with HTML, CSS, and JavaScript to implement visual designs</li>
+          <li>Conducting user behavior research to inform design decisions</li>
+        </ul>
+      </div>
+
+      <div class="exp-card glass reveal">
+        <p class="exp-card-title"><span class="icon">🛠️</span> SOFTWARE MAINTENANCE</p>
+        <ul class="exp-list">
+          <li>Diagnosing and resolving software issues in POS, inventory, and CRM systems</li>
+          <li>Providing technical support to store employees on software usage</li>
+          <li>Participating in regular data backups and ensuring integrity of critical data</li>
+          <li>Assisting in data recovery procedures in case of system failures</li>
+          <li>Installation, testing, and deployment of software updates and upgrades</li>
+          <li>Ensuring smooth transitions during updates to minimize operational disruption</li>
+        </ul>
+      </div>
+
+      <div class="exp-card glass reveal">
+        <p class="exp-card-title"><span class="icon">🌐</span> NETWORK ADMINISTRATION</p>
+        <ul class="exp-list">
+          <li>Monitoring network performance and diagnosing connectivity issues and security breaches</li>
+          <li>Troubleshooting network problems for workstations, printers, and devices</li>
+          <li>Implementing and maintaining network security measures including firewalls</li>
+          <li>Implementing intrusion detection systems and conducting security audits</li>
+          <li>Identifying and mitigating potential security threats</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EDUCATION ===== -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-tag">// ACADEMIC BACKGROUND</span>
+      <h2 class="section-title">EDUCATION <span class="highlight">HISTORY</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card glass reveal">
+        <p class="edu-year">⭐ 2026 · GRADUATING MAY</p>
+        <p class="edu-institution">DMI UNIVERSITY MANGOCHI</p>
+        <p class="edu-degree">General Degree in Computer Science (BSc)</p>
+        <span class="edu-badge">UNDERGRADUATE · COMPUTER SCIENCE</span>
+      </div>
+
+      <div class="edu-card glass reveal">
+        <p class="edu-year">📅 2019</p>
+        <p class="edu-institution">BEDIRE INTERNATIONAL HIGH SCHOOL BLANTYRE</p>
+        <p class="edu-degree">Cambridge All Level Examinations</p>
+        <span class="edu-badge">CAMBRIDGE · ALL LEVELS</span>
+      </div>
+
+      <div class="edu-card glass reveal">
+        <p class="edu-year">📅 2014 – 2016</p>
+        <p class="edu-institution">BAMBINO HIGH SCHOOL LILONGWE</p>
+        <p class="edu-degree">Cambridge Checkpoint Programme</p>
+        <span class="edu-badge">CAMBRIDGE · CHECKPOINT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CERTIFICATIONS ===== -->
+  <section id="certifications">
+    <div class="section-header reveal">
+      <span class="section-tag">// CREDENTIALS</span>
+      <h2 class="section-title">CERTIFI<span class="highlight">CATIONS</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card glass reveal">
+        <p class="cert-issuer">🔵 CISCO NETWORKING ACADEMY</p>
+        <span class="cert-year-badge">2024</span>
+        <ul class="cert-items">
+          <li>End-Point Security</li>
+          <li>CCNA Fundamentals</li>
+        </ul>
+      </div>
+
+      <div class="cert-card glass reveal">
+        <p class="cert-issuer">🔴 ORACLE UNIVERSITY</p>
+        <span class="cert-year-badge">2025</span>
+        <ul class="cert-items">
+          <li>Artificial Intelligence Vector Search Fundamentals</li>
+        </ul>
+      </div>
+
+      <div class="cert-card glass reveal">
+        <p class="cert-issuer">🟣 CLASS CENTRAL</p>
+        <span class="cert-year-badge">2025</span>
+        <ul class="cert-items">
+          <li>Kubernetes Fundamentals Server-Side Operations</li>
+        </ul>
+      </div>
+
+      <div class="cert-card glass reveal">
+        <p class="cert-issuer">🔵 HP FOUNDATION</p>
+        <span class="cert-year-badge">2025</span>
+        <ul class="cert-items">
+          <li>Artificial Intelligence</li>
+          <li>Strategic Planning</li>
+          <li>Digital Business Skills</li>
+        </ul>
+      </div>
+
+      <div class="cert-card glass reveal">
+        <p class="cert-issuer">🟠 UDEMY</p>
+        <span class="cert-year-badge">2025</span>
+        <ul class="cert-items">
+          <li>Time Management</li>
+          <li>Graphic Design Fundamentals</li>
+          <li>UX User Experience Principles & Fundamentals</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACHIEVEMENTS ===== -->
+  <section id="achievements">
+    <div class="section-header reveal">
+      <span class="section-tag">// RECOGNITION</span>
+      <h2 class="section-title">ACHIEVEMENTS <span class="highlight">& AWARDS</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="achievements-grid">
+      <div class="achievement-card glass reveal">
+        <span class="achievement-icon">🏅</span>
+        <p class="achievement-school">BAMBINO HIGH SCHOOL</p>
+        <p class="achievement-year">2016 – 2017</p>
+        <p class="achievement-title">Elected as the School's <strong style="color:var(--primary)">Sanitation Prefect</strong></p>
+      </div>
+
+      <div class="achievement-card glass reveal">
+        <span class="achievement-icon">👑</span>
+        <p class="achievement-school">BEDIRE INTERNATIONAL HIGH SCHOOL</p>
+        <p class="achievement-year">2019 – 2020</p>
+        <p class="achievement-title">Elected as <strong style="color:var(--primary)">School Head Boy</strong></p>
+      </div>
+
+      <div class="achievement-card glass reveal">
+        <span class="achievement-icon">🎯</span>
+        <p class="achievement-school">DMI UNIVERSITY MANGOCHI COMPASS</p>
+        <p class="achievement-year">2020 – 2021</p>
+        <p class="achievement-title">Voted as <strong style="color:var(--primary)">Class Representative</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REFERENCES ===== -->
+  <section id="references">
+    <div class="section-header reveal">
+      <span class="section-tag">// ENDORSEMENTS</span>
+      <h2 class="section-title">PROFES<span class="highlight">SIONAL REFS</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="ref-grid">
+      <div class="ref-card glass reveal">
+        <p class="ref-name">DR. KHOLIWE MKANDAWIRE</p>
+        <p class="ref-title">Director · MUDI VET LILONGWE</p>
+        <p class="ref-contact">📱 <span>+265 997 23 62 64</span></p>
+        <p class="ref-contact">📧 <a href="mailto:mkandawirek@yahoo.com">mkandawirek@yahoo.com</a></p>
+      </div>
+
+      <div class="ref-card glass reveal">
+        <p class="ref-name">HON. GETRUDE</p>
+        <p class="ref-title">Director · MUDI PHARMACY MALAWI</p>
+        <p class="ref-contact">📱 <span>+265 999 29 00 73</span></p>
+        <p class="ref-contact">📧 <a href="mailto:mudipharmacy@outlook.com">mudipharmacy@outlook.com</a></p>
+      </div>
+
+      <div class="ref-card glass reveal">
+        <p class="ref-name">MR. JOHN MUHANGO</p>
+        <p class="ref-title">General Manager · MUDI PHARMACIES BLANTYRE</p>
+        <p class="ref-contact">📱 <span>+265 999 95 1733</span></p>
+      </div>
+
+      <div class="ref-card glass reveal">
+        <p class="ref-name">DR. LUHANGA</p>
+        <p class="ref-title">Former HOD, CS Dept · DMI UNIVERSITY MANGOCHI</p>
+        <p class="ref-contact">📱 <span>+265 998391144</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-tag">// LET'S CONNECT</span>
+      <h2 class="section-title">GET IN <span class="highlight">TOUCH</span></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info glass reveal">
+        <p class="contact-info-title">// CONTACT INFORMATION</p>
+
+        <div class="contact-item">
+          <span class="contact-item-icon">📧</span>
+          <div>
+            <span class="contact-item-label">EMAIL</span>
+            <span class="contact-item-value">
+              <a href="mailto:sintekesekamalunga@gmail.com">sintekesekamalunga@gmail.com</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-item-icon">📱</span>
+          <div>
+            <span class="contact-item-label">PHONE (PRIMARY)</span>
+            <span class="contact-item-value">+265 99 589 3650</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-item-icon">📞</span>
+          <div>
+            <span class="contact-item-label">PHONE (SECONDARY)</span>
+            <span class="contact-item-value">+265 88 060 0852</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-item-icon">📍</span>
+          <div>
+            <span class="contact-item-label">ADDRESS</span>
+            <span class="contact-item-value">Likuni Turn Off Corner, P.O Box 1914 Lilongwe</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-item-icon">🌍</span>
+          <div>
+            <span class="contact-item-label">AVAILABILITY</span>
+            <span class="contact-item-value" style="color:var(--primary)">Open to Opportunities</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form glass reveal">
+        <p class="contact-form-title">// SEND A MESSAGE</p>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="fname">YOUR NAME</label>
+            <input class="form-input" type="text" id="fname" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="femail">YOUR EMAIL</label>
+            <input class="form-input" type="email" id="femail" placeholder="Enter your email address" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fsubject">SUBJECT</label>
+            <input class="form-input" type="text" id="fsubject" placeholder="Subject of your message" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fmessage">MESSAGE</label>
+            <textarea class="form-textarea" id="fmessage" placeholder="Write your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+            ⚡ SEND MESSAGE
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end main-wrapper -->
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <p class="footer-name">SINTEKESEKA ADRIAN MALUNGA</p>
+    <p class="footer-copy">
+      © 2025 · Computer Science Graduate · Lilongwe, Malawi · Built with HTML, CSS & JavaScript for GitHub Pages
+    </p>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // ===== THEME TOGGLE =====
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeIcon.textContent = isDark ? '☀️' : '🌙';
+  });
+
+  // ===== HAMBURGER MENU =====
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+  });
+
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // ===== SCROLL REVEAL =====
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // ===== CURSOR GLOW =====
+  const cursorGlow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+  });
+
+  // ===== ANIMATED BACKGROUND CANVAS =====
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, nodes, animFrame;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  class Node {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.r = Math.random() * 2.5 + 1;
+      this.opacity = Math.random() * 0.6 + 0.2;
+      this.pulse = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.pulse += 0.02;
+      if (this.x < 0 || this.x > W) this.vx *= -1;
+      if (this.y < 0 || this.y > H) this.vy *= -1;
+    }
+    draw() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      const color = theme === 'light' ? '1, 138, 245' : '1, 138, 245';
+      const pulsed = this.opacity * (0.7 + 0.3 * Math.sin(this.pulse));
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color}, ${pulsed})`;
+      ctx.fill();
+
+      // Glow
+      const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5);
+      grad.addColorStop(0, `rgba(${color}, ${pulsed * 0.4})`);
+      grad.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+  }
+
+  function drawConnections() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const color = theme === 'light' ? '1, 138, 245' : '0, 212, 255';
+    const maxDist = 160;
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.18;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(${color}, ${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  // Floating data packets
+  const packets = [];
+  class Packet {
+    constructor() {
+      const startNode = nodes[Math.floor(Math.random() * nodes.length)];
+      const endNode = nodes[Math.floor(Math.random() * nodes.length)];
+      this.startX = startNode.x;
+      this.startY = startNode.y;
+      this.endX = endNode.x;
+      this.endY = endNode.y;
+      this.progress = 0;
+      this.speed = Math.random() * 0.01 + 0.005;
+      this.active = true;
+    }
+    update() {
+      this.progress += this.speed;
+      if (this.progress >= 1) this.active = false;
+    }
+    draw() {
+      const x = this.startX + (this.endX - this.startX) * this.progress;
+      const y = this.startY + (this.endY - this.startY) * this.progress;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 212, 255, 0.8)`;
+      ctx.fill();
+
+      const glowG = ctx.createRadialGradient(x, y, 0, x, y, 8);
+      glowG.addColorStop(0, 'rgba(0,212,255,0.4)');
+      glowG.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = glowG;
+      ctx.fill();
+    }
+  }
+
+  function initNodes() {
+    const count = Math.floor((W * H) / 14000);
+    nodes = Array.from({ length: Math.min(count, 80) }, () => new Node());
+  }
+
+  let packetTimer = 0;
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+
+    drawConnections();
+    nodes.forEach(n => { n.update(); n.draw(); });
+
+    // Packets
+    packetTimer++;
+    if (packetTimer % 30 === 0 && Math.random() > 0.4) {
+      packets.push(new Packet());
+    }
+
+    for (let i = packets.length - 1; i >= 0; i--) {
+      packets[i].update();
+      if (packets[i].active) {
+        packets[i].draw();
+      } else {
+        packets.splice(i, 1);
+      }
+    }
+
+    animFrame = requestAnimationFrame(animate);
+  }
+
+  resize();
+  initNodes();
+  animate();
+
+  window.addEventListener('resize', () => {
+    resize();
+    initNodes();
+  });
+
+  // ===== FLOATING PARTICLES =====
+  function createParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.bottom = '-10px';
+    const size = Math.random() * 4 + 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    const dur = Math.random() * 10 + 8;
+    p.style.animationDuration = dur + 's';
+    p.style.animationDelay = Math.random() * 5 + 's';
+    const opacity = Math.random() * 0.5 + 0.2;
+    p.style.opacity = opacity;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), (dur + 5) * 1000);
+  }
+
+  for (let i = 0; i < 15; i++) {
+    setTimeout(createParticle, i * 600);
+  }
+  setInterval(createParticle, 2000);
+
+  // ===== CONTACT FORM =====
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✅ MESSAGE SENT!';
+    btn.style.background = '#00c851';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3000);
+  }
+
+  // ===== NAVBAR SCROLL =====
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 60) {
+      nav.style.boxShadow = '0 4px 40px rgba(1,138,245,0.2)';
+    } else {
+      nav.style.boxShadow = '0 4px 30px rgba(1,138,245,0.1)';
+    }
+  });
+
+  // ===== TYPING ANIMATION for hero greeting =====
+  const greetEl = document.querySelector('.hero-greeting');
+  const greetText = 'COMPUTER SCIENCE GRADUATE';
+  greetEl.textContent = '';
+  let gi = 0;
+  function typeGreet() {
+    if (gi <= greetText.length) {
+      greetEl.textContent = greetText.slice(0, gi);
+      gi++;
+      setTimeout(typeGreet, 80);
+    }
+  }
+  setTimeout(typeGreet, 500);
+</script>
+
 </body>
 </html>
